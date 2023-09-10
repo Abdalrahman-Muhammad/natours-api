@@ -32,6 +32,8 @@ exports.handleGetTours = catchAsync(async (req, res, next) => {
 
 exports.handleGetOneTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
+
+  if (!tour) return next(new AppError('no tour found with that id', 404));
   res.status(200).json({
     status: 'success',
     data: {
@@ -57,6 +59,8 @@ exports.handlePatchTour = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+  if (!tour) return next(new AppError('no tour found with that id', 404));
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -66,8 +70,10 @@ exports.handlePatchTour = catchAsync(async (req, res, next) => {
 });
 //204 ==> null
 exports.handleDeleteTour = catchAsync(async (req, res, next) => {
-  await Tour.findByIdAndDelete(req.params.id);
+  const tour = await Tour.findByIdAndDelete(req.params.id);
   // in RESTful API it common practice not to send any data to client when it is deleting  204 is a standard
+  if (!tour) return next(new AppError('no tour found with that id', 404));
+
   res.status(204).json({
     status: 'success',
     data: null,
