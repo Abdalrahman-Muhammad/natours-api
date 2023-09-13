@@ -12,7 +12,7 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       minlength: [10, 'A tour name must be at least 10 characters long'],
       maxlength: [50, 'A tour name cannot be longer than 50 characters'],
-      validate: [validator.isAlpha, 'The tour name must be a valid alpha'],
+      // validate: [validator.isAlpha, 'The tour name must be a valid alpha'],
     },
     slug: String,
     duration: {
